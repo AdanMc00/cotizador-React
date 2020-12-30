@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
+import Header from './components/Header'
+import Form from './components/Form'
+import Resume from './components/Resume'
+
+import styled from '@emotion/styled';
+import Result from "./components/Result";
+import Spinner from "./components/Spinner";
+
+const Container = styled.div`
+max-width: 600px;
+margin: 0 auto;
+`;
+
+const FormContainer = styled.div`
+background-color: #FFF;
+padding: 3rem;
+;`
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [resume, setResume] = useState({
+        quote: 0,
+        data: {
+            brand: '',
+            year: '',
+            plan: ''
+        }
+    })
+    const [loading, setloading] = useState(false)
+    //extrar data
+    const {quote, data} = resume;
+
+    return (
+        <Container>
+            <Header
+                title='Cotizador de Seguros'
+            />
+            <FormContainer>
+                <Form
+                    setResume={setResume}
+                    setLoading={setloading}
+                />
+                {loading ? <Spinner/> :
+                    <Resume
+                    data={data}/>}
+
+
+                {!loading
+                    ?
+                    <Result
+                        quote={quote}
+                    /> : null
+                }
+
+            </FormContainer>
+        </Container>
+    );
 }
 
 export default App;
